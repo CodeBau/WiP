@@ -1,6 +1,7 @@
 #include "logwin.h"
 #include "ui_logwin.h"
 #include "config.h"
+//#include "config_example.h"
 #include "logs.h"
 #include <QtSql>
 

@@ -18,6 +18,7 @@ SOURCES += \
 
 HEADERS += \
     config.h \
+    config_example.h \
     logs.h \
     logwin.h \
     mainwin.h \

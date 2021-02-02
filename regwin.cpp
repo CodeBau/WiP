@@ -1,6 +1,7 @@
 #include "regwin.h"
 #include "ui_regwin.h"
 #include "config.h"
+//#include "config_example.h"
 #include "logs.h"
 #include <QtSql>
 
