@@ -9,27 +9,27 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    logs.cpp \
-    main.cpp \
-    logwin.cpp \
-    mainwin.cpp \
-    pswdrmdwin.cpp \
-    regwin.cpp
+    Source/logs.cpp \
+    Source/logwin.cpp \
+    Source/main.cpp \
+    Source/mainwin.cpp \
+    Source/pswdrmdwin.cpp \
+    Source/regwin.cpp \
 
 HEADERS += \
-    config.h \
-    config_example.h \
-    logs.h \
-    logwin.h \
-    mainwin.h \
-    pswdrmdwin.h \
-    regwin.h
+    Headers/config.h \
+    Headers/config_example.h \
+    Headers/logs.h \
+    Headers/logwin.h \
+    Headers/mainwin.h \
+    Headers/pswdrmdwin.h \
+    Headers/regwin.h \
 
 FORMS += \
-    logwin.ui \
-    mainwin.ui \
-    pswdrmdwin.ui \
-    regwin.ui
+    Forms/logwin.ui \
+    Forms/mainwin.ui \
+    Forms/pswdrmdwin.ui \
+    Forms/regwin.ui \
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
