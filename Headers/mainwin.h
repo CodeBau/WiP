@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include "logwin.h"
 
+//for commit
 class LogWin;
 
 QT_BEGIN_NAMESPACE
