@@ -67,9 +67,11 @@ void RegWin::on_RegWin_Button_reg_clicked()
 
                if (db.open())
                {
+                   //creating an organization table
                     QSqlQuery query;
                     if(query.exec("CREATE TABLE IF NOT EXISTS organizations(id_org MEDIUMINT NOT NULL AUTO_INCREMENT, organization_name CHAR(30) NOT NULL, PRIMARY KEY(id_org))"))
                     {
+                        //checking if an organization with the given name exists
                         if (query.exec("SELECT organization_name FROM organizations WHERE organization_name='"+org_text+"'"))
                         {
                             if (query.next())
@@ -77,13 +79,21 @@ void RegWin::on_RegWin_Button_reg_clicked()
                                 ui->RegWin_Text_redallert->setText("Organizacja o tej nazwie już istnieje");
                                 timer_redallert->start(2500);
                             }//Organization exist
+
+                            //the organization does not exist, we continue to create a new one
                             else
                             {
+                                //enter the organization name  into the organizations table
                                 if (query.exec("INSERT INTO organizations (organization_name) VALUES ('" + org_text + "')"))
                                 {
-                                    if(query.exec("CREATE TABLE IF NOT EXISTS users(id_user MEDIUMINT NOT NULL AUTO_INCREMENT, user_name CHAR(50) NOT NULL, user_pswd CHAR(25) NOT NULL, user_org CHAR(30) NOT NULL, user_role CHAR(30) NOT NULL,user_status CHAR(10) NOT NULL, user_tries SMALLINT NOT NULL, PRIMARY KEY(id_user))"))
+                                    if(query.exec("CREATE TABLE IF NOT EXISTS users(id_user MEDIUMINT NOT NULL AUTO_INCREMENT, user_name CHAR(50) NOT NULL, user_pswd CHAR(25) NOT NULL, user_key SMALLINT NOT NULL, user_org CHAR(30) NOT NULL, user_role CHAR(30) NOT NULL,user_status CHAR(10) NOT NULL, user_tries SMALLINT NOT NULL, PRIMARY KEY(id_user))"))
                                     {
-                                        if(query.exec("INSERT INTO users (user_name, user_pswd, user_org, user_role,user_status, user_tries) VALUES ('" + login_text + "', '" + pswd_text + "', '" + org_text + "', 'admin', 'active', 0)" ))
+                                        //generating user_key
+                                        std::uniform_int_distribution<int> random(1,30);
+                                        int user_key=random(*QRandomGenerator::global());
+                                        query.prepare("INSERT INTO users (user_name, user_pswd, user_key, user_org, user_role,user_status, user_tries) VALUES ('" + login_text + "', '" + pswd_text + "', :W_user_key, '" + org_text + "', 'admin', 'active', 0)" );
+                                        query.bindValue(":W_user_key",user_key);
+                                        if(query.exec())
                                         {
                                             if(query.exec("SELECT id_user FROM users WHERE user_name='" +login_text+"'"))
                                             {

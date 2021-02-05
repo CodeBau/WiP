@@ -9,6 +9,7 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+    a.setWindowIcon(QIcon("://Media/ico/wipicon.ico"));
 
     mylog("App.Start");
 

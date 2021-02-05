@@ -4,6 +4,7 @@
 //#include "../Headers/config_example.h"
 #include "../Headers/logs.h"
 #include <QtSql>
+#include <QMessageBox>
 
 #include <iostream>
 
@@ -80,56 +81,72 @@ void LogWin::on_LogWin_Button_log_clicked()
                                 {
                                     if (query.exec("SELECT user_pswd FROM users WHERE user_name='"+login_text+"'"))
                                     {
-
                                         query.next(); //store answers
                                         QString p_s_w_d=QVariant(query.value(0)).toString(); // first (0) ans
-
-                                       if(p_s_w_d==pswd_text)
-                                       {
-
+                                        if(p_s_w_d==pswd_text)
+                                        {
                                            ui->LogWin_Text_redallert->setStyleSheet(QStringLiteral("QLabel{color: rgb(94, 160, 1);}"));
                                            ui->LogWin_Text_redallert->setText("Udana próba logowania");
                                            timer_redallert->start(2500);
 
-                                       qDebug("Dobre hasło");
+                                           qDebug("Dobre hasło");
+                                           QFile configFile("config.wip");
+                                           if(configFile.open(QIODevice::WriteOnly | QIODevice::Text))
+                                           {
+                                               QTextStream inConfig(&configFile);
+                                               if(ui->LogWin_CheckBox_logdata->isEnabled() && ui->LogWin_CheckBox_logdata->isChecked())
+                                               {
+                                                   qDebug("zapamiętaj dane logowania ");
 
-                                       if(ui->LogWin_CheckBox_logdata->isEnabled() && ui->LogWin_CheckBox_logdata->isChecked())
-                                       {
-                                            qDebug("dane logowania zapamiętaj");
-                                            QFile logFile("config.wip");
-                                            if(logFile.open(QIODevice::Text)){
-                                                QTextStream outLog(&logFile);
-                                                outLog <<"wip.config.user.set"
-                                                       <<"1\n"
-                                                       <<"0\n"
-                                                       << login_text <<"\n"
-                                                       << pswd_text <<"\n";
-                                            }
-                                            else
-                                            {
-                                                //TODO message: problem with files
-                                            }
+                                                   for (int i=0;i<pswd_text.size();i++)
+                                                   {
+                                                       QChar letter=pswd_text[i];
+                                                       //int letter_int=letter.toInt();
+                                                       qDebug()<<letter;
+                                                      // QChar letter_hash=letter;
+                                                       //If your string contains non-ASCII characters - it's better to do it this way: s.toUtf8().data() (or s->toUtf8().data())
 
-                                            //TODO open mainwin
-                                       }
-                                       else if (!ui->LogWin_CheckBox_logdata->isEnabled() && ui->LogWin_CheckBox_autolog->isChecked())
-                                       {
-                                            qDebug("autologowanie");
+                                                   }
 
-                                       }
 
-                                       else if (!ui->LogWin_CheckBox_logdata->isChecked() && !ui->LogWin_CheckBox_autolog->isChecked())
-                                       {
-                                            qDebug("poprostu logowanie");
+                                                   inConfig <<"<wip.config.user.set>\n"
+                                                            <<"1\n"
+                                                            <<"0\n"
+                                                            << login_text <<"\n"
+                                                            << pswd_text <<"\n";
 
-                                            //TODO deleting info from file
 
-                                       }
+                                                   //TODO password protect
+                                                   //TODO open mainwin
+                                               }
+                                               else if (!ui->LogWin_CheckBox_logdata->isEnabled() && ui->LogWin_CheckBox_autolog->isChecked())
+                                               {
+                                                   qDebug("autologowanie");
+                                                   inConfig <<"<wip.config.user.set>\n"
+                                                            <<"1\n"
+                                                            <<"1\n"
+                                                            << login_text <<"\n"
+                                                            << pswd_text <<"\n";
 
-                                       //TODO autologowanie
-
-                                       //TODO danelogowania
-
+                                               }
+                                               else if (!ui->LogWin_CheckBox_logdata->isChecked() && !ui->LogWin_CheckBox_autolog->isChecked())
+                                               {
+                                                   qDebug("poprostu logowanie");
+                                                   inConfig <<"<wip.config.user.set>\n"
+                                                            <<"0\n"
+                                                            <<"0\n"
+                                                            <<"0\n"
+                                                            <<"0\n";
+                                               }
+                                           }
+                                           else
+                                           {
+                                               QMessageBox msgWarning;
+                                               msgWarning.setText("Program, nie może zapisać odpowiednich plików w swoim środowisku.\nSprawdź możliwość zapisu danych w folderze program.");
+                                               msgWarning.setIcon(QMessageBox::Warning);
+                                               msgWarning.setWindowTitle("Uwaga");
+                                               msgWarning.exec();
+                                           }
                                        }//Good Passward
                                        else
                                        {
