@@ -8,7 +8,7 @@ Application designed for organizations (companies) to manage team work in projec
 The main purpose is to control working time for individual tasks.
 
 ## 3. Technologies:
-Qt Creator 4.14.0 on Windows 10\ 
+Qt Creator 4.14.0 on Windows 10\
 with Qt 5.15.2 release
 
 ## 4. Instalation:
