@@ -2,15 +2,16 @@
 #include <QFile>
 #include <QTextStream>
 #include <QDateTime>
-#include <QStringView>
 #include <QMessageBox>
-#include <QMessageBox>
+#include <QDir>
 
 
 void mylog(QString log_text)
 {
     QString current_date= QDateTime::currentDateTime().toString("yyyy.MM.dd HH:mm:ss");
-    QFile logFile("log.wip");
+    QDir root=QDir::current();
+    root.mkdir("data");
+    QFile logFile("data/log.wip");
     if(logFile.open(QIODevice::Append|QIODevice::Text))
     {
         QTextStream outLog(&logFile);
@@ -26,3 +27,4 @@ void mylog(QString log_text)
     }
     logFile.close();
 }
+

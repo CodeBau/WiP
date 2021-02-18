@@ -1,5 +1,4 @@
 #pragma once
-#include <iostream>
 
 const char DbHost[]{ "localhost" };
 const char DbUser[]{ "root" };

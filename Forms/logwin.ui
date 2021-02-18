@@ -181,8 +181,17 @@ font-size: 16px;
       <height>25</height>
      </rect>
     </property>
+    <property name="inputMask">
+     <string/>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
     <property name="maxLength">
-     <number>320</number>
+     <number>32767</number>
+    </property>
+    <property name="placeholderText">
+     <string>e-mail</string>
     </property>
    </widget>
    <widget class="QLineEdit" name="LogWin_Edit_pswd">
@@ -194,8 +203,14 @@ font-size: 16px;
       <height>25</height>
      </rect>
     </property>
+    <property name="inputMask">
+     <string/>
+    </property>
     <property name="maxLength">
-     <number>25</number>
+     <number>32767</number>
+    </property>
+    <property name="placeholderText">
+     <string>hasło</string>
     </property>
    </widget>
    <widget class="QCheckBox" name="LogWin_CheckBox_logdata">
@@ -241,6 +256,93 @@ font-size: 16px;
     </property>
     <property name="wordWrap">
      <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="set">
+    <property name="geometry">
+     <rect>
+      <x>420</x>
+      <y>350</y>
+      <width>80</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>set</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="moje">
+    <property name="geometry">
+     <rect>
+      <x>400</x>
+      <y>320</y>
+      <width>175</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Podaj e-mail:</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="get">
+    <property name="geometry">
+     <rect>
+      <x>430</x>
+      <y>270</y>
+      <width>80</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>get</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="moje_2">
+    <property name="geometry">
+     <rect>
+      <x>400</x>
+      <y>240</y>
+      <width>175</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Podaj e-mail:</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="get_2">
+    <property name="geometry">
+     <rect>
+      <x>440</x>
+      <y>190</y>
+      <width>80</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>rozchaszuj</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="moje_3">
+    <property name="geometry">
+     <rect>
+      <x>400</x>
+      <y>150</y>
+      <width>175</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Podaj e-mail:</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
   </widget>

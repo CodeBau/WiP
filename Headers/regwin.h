@@ -5,9 +5,7 @@
 #include <QTimer>
 #include "logwin.h"
 #include "pswdrmdwin.h"
-
-class LogWin;
-class PswdRmdWin;
+#include "window_init.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class RegWin; }
@@ -17,13 +15,9 @@ class RegWin : public QMainWindow
 {
     Q_OBJECT
 public:
-    LogWin* ptr_RegWin_LogWin;
-    PswdRmdWin* ptr_RegWin_PswdRmdWin;
-
-    void makereferances(LogWin& RegWin_LogWin, PswdRmdWin& RegWin_PswdRmdWin);
-
     RegWin(QWidget *parent = nullptr);
     ~RegWin();
+    void get_pointers(LogWin* RegWin_LogWin, PswdRmdWin* RegWin_PswdRmdWin);
 
 private slots:
     void set_redallert_to_null();
@@ -32,6 +26,8 @@ private slots:
     void on_RegWin_Button_pswdrmd_clicked();
 
 private:
+    LogWin* ptr_RegWin_LogWin;
+    PswdRmdWin* ptr_RegWin_PswdRmdWin;
     QTimer *timer_redallert;
     Ui::RegWin *ui;
 };

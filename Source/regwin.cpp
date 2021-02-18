@@ -2,13 +2,18 @@
 #include "ui_regwin.h"
 #include "../Headers/config.h"
 //#include "../Headers/config_example.h"
+#include "../Headers/fragile.h"
+//#include "../Headers/fragile_example.h"
 #include "../Headers/logs.h"
-#include <QtSql>
+#include "../Headers/hash.h"
+#include  <QtSql>
 
 RegWin::RegWin(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::RegWin)
 {
+    qDebug("RegWin Tworze");
+    this->setAttribute( Qt::WA_DeleteOnClose );
     ui->setupUi(this);
     timer_redallert = new QTimer(this);
     connect(timer_redallert, &QTimer::timeout, this, &RegWin::set_redallert_to_null);
@@ -16,14 +21,8 @@ RegWin::RegWin(QWidget *parent)
 
 RegWin::~RegWin()
 {
+    qDebug("RegWin Niszcze");
     delete ui;
-}
-
-
-void RegWin::makereferances(LogWin& RegWin_LogWin, PswdRmdWin& RegWin_PswdRmdWin)
-{
-    ptr_RegWin_LogWin = &RegWin_LogWin;
-    ptr_RegWin_PswdRmdWin = &RegWin_PswdRmdWin;
 }
 
 void RegWin::on_RegWin_Button_reg_clicked()
@@ -69,10 +68,10 @@ void RegWin::on_RegWin_Button_reg_clicked()
                {
                    //creating an organization table
                     QSqlQuery query;
-                    if(query.exec("CREATE TABLE IF NOT EXISTS organizations(id_org MEDIUMINT NOT NULL AUTO_INCREMENT, organization_name CHAR(30) NOT NULL, PRIMARY KEY(id_org))"))
+                    if(query.exec("CREATE TABLE IF NOT EXISTS organizations(org_id INT NOT NULL AUTO_INCREMENT, org_name CHAR(30) NOT NULL, PRIMARY KEY(org_id))"))
                     {
                         //checking if an organization with the given name exists
-                        if (query.exec("SELECT organization_name FROM organizations WHERE organization_name='"+org_text+"'"))
+                        if (query.exec("SELECT org_name FROM organizations WHERE org_name='"+org_text+"'"))
                         {
                             if (query.next())
                             {
@@ -84,32 +83,29 @@ void RegWin::on_RegWin_Button_reg_clicked()
                             else
                             {
                                 //enter the organization name  into the organizations table
-                                if (query.exec("INSERT INTO organizations (organization_name) VALUES ('" + org_text + "')"))
+                                if (query.exec("INSERT INTO organizations (org_name) VALUES ('" + org_text + "')"))
                                 {
-                                    if(query.exec("CREATE TABLE IF NOT EXISTS users(id_user MEDIUMINT NOT NULL AUTO_INCREMENT, user_name CHAR(50) NOT NULL, user_pswd CHAR(25) NOT NULL, user_key SMALLINT NOT NULL, user_org CHAR(30) NOT NULL, user_role CHAR(30) NOT NULL,user_status CHAR(10) NOT NULL, user_tries SMALLINT NOT NULL, PRIMARY KEY(id_user))"))
+                                    if(query.exec("CREATE TABLE IF NOT EXISTS users(user_id INT NOT NULL AUTO_INCREMENT, user_name CHAR(50) NOT NULL, user_pswd CHAR(25) NOT NULL, user_key TINYINT NOT NULL, user_org CHAR(30) NOT NULL, user_role CHAR(30) NOT NULL, user_active_task CHAR(30) NOT NULL, user_status CHAR(10) NOT NULL, user_tries TINYINT NOT NULL, PRIMARY KEY(user_id))"))
                                     {
                                         //generating user_key
-                                        std::uniform_int_distribution<int> random(1,30);
+                                        std::uniform_int_distribution<int> random(10,35);
                                         int user_key=random(*QRandomGenerator::global());
-                                        query.prepare("INSERT INTO users (user_name, user_pswd, user_key, user_org, user_role,user_status, user_tries) VALUES ('" + login_text + "', '" + pswd_text + "', :W_user_key, '" + org_text + "', 'admin', 'active', 0)" );
+
+                                        //adding user data to users table
+                                        query.prepare("INSERT INTO users (user_name, user_pswd, user_key, user_org, user_role, user_active_task, user_status, user_tries) VALUES ('" + login_text + "', '" + pswd_to_hash(pswd_text,user_key) + "', :W_user_key, '" + org_text + "', 'admin', 'no', 'active', 0)" );
                                         query.bindValue(":W_user_key",user_key);
                                         if(query.exec())
                                         {
-                                            if(query.exec("SELECT id_user FROM users WHERE user_name='" +login_text+"'"))
+                                            if(query.exec("SELECT user_id FROM users WHERE user_name='" +login_text+"'"))
                                             {
                                                 query.next(); //store answers
                                                 QString id_adding_user=QVariant(query.value(0)).toString(); // first (0) ans
-                                                if (query.exec("CREATE TABLE IF NOT EXISTS user_"+id_adding_user+"_ (id_task MEDIUMINT NOT NULL AUTO_INCREMENT, start CHAR(50) NOT NULL, stop CHAR(50) NOT NULL, project CHAR(50) NOT NULL, quest CHAR(50) NOT NULL, PRIMARY KEY(id_task))"))
+                                                if (query.exec("CREATE TABLE IF NOT EXISTS user_"+id_adding_user+"_ (id_task INT NOT NULL AUTO_INCREMENT, start CHAR(50) NOT NULL, stop CHAR(50) NOT NULL, project CHAR(50) NOT NULL, quest CHAR(50) NOT NULL, PRIMARY KEY(id_task))"))
                                                 {
                                                     ui->RegWin_Text_redallert->setStyleSheet(QStringLiteral("QLabel{color: rgb(94, 160, 1);}"));
                                                     ui->RegWin_Text_redallert->setText("Organizacja " + org_text +" została zarejestrowana");
                                                     timer_redallert->start(2500);
-
-                                                    qDebug()<<db.isOpen();
                                                     db.close();
-                                                    qDebug()<<db.isOpen();
-
-                                                    //TODO close db
 
                                                  }//CREATE TABLE user_+id
                                                 else
@@ -214,6 +210,7 @@ void RegWin::on_RegWin_Button_log_clicked()
     ptr_RegWin_LogWin->move(this->pos());
     ptr_RegWin_LogWin->show();
     this->hide();
+
 }
 
 void RegWin::on_RegWin_Button_pswdrmd_clicked()
@@ -228,4 +225,10 @@ void RegWin::set_redallert_to_null()
     ui->RegWin_Text_redallert->setText("");
     ui->RegWin_Text_redallert->setStyleSheet(QStringLiteral("QLabel{color: rgb(227, 6,19);}"));
 
+}
+
+void RegWin::get_pointers(LogWin* RegWin_LogWin, PswdRmdWin* RegWin_PswdRmdWin)
+{
+    ptr_RegWin_LogWin = RegWin_LogWin;
+    ptr_RegWin_PswdRmdWin = RegWin_PswdRmdWin;
 }

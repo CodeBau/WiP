@@ -1,36 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>PswdRmdWin</class>
- <widget class="QMainWindow" name="PswdRmdWin">
+ <class>Accont_Data_Change</class>
+ <widget class="QMainWindow" name="Accont_Data_Change">
+  <property name="enabled">
+   <bool>true</bool>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>600</width>
-    <height>400</height>
+    <width>300</width>
+    <height>250</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>600</width>
-    <height>400</height>
+    <width>300</width>
+    <height>250</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>600</width>
-    <height>400</height>
+    <width>300</width>
+    <height>250</height>
    </size>
   </property>
   <property name="windowTitle">
-   <string>WiP - przypomnienie hasła</string>
+   <string>Zmiana danych</string>
   </property>
   <property name="styleSheet">
    <string notr="true">QMainWindow {
 background: rgb(240, 240, 240);
 }
 
-QPushButton#PswdRmdWin_Button_pswdrmd{
+QPushButton#LogWin_Button_log{
  background-color: white;
  border: 1px solid rgb(0, 72, 0);
  font-family: Calibri; 
@@ -38,7 +41,7 @@ color: rgb(0, 72, 0);
 font-size: 15px;
 }
 
-QPushButton:pressed#PswdRmdWin_Button_pswdrmd{ 
+QPushButton:pressed#LogWin_Button_log{ 
 background-color: rgb(0, 72, 0); 
 font-family: Calibri;
  color: rgb(240, 240, 240);
@@ -68,11 +71,25 @@ font-family: Calibri;
 font-size: 16px;
 }
 
+QLabel#LogWin_Text_redallert{ 
+color:  rgb(227, 6,19); 
+font-family: Calibri; 
+font-size: 16px;
+}
+
 QCheckBox{ 
 color:  rgb(0, 72, 0); 
 font-family: Calibri; 
 font-size: 16px;
 }
+
+QCheckBox:disabled{ 
+color:  rgb(170, 170, 170); 
+font-family: Calibri; 
+font-size: 16px;
+}
+
+
 
 /*QPushButton:disabled{ background-color: yellow; }*/
 /*QPushButton:focus:pressed{ background-color: black; }*/
@@ -84,82 +101,97 @@ font-size: 16px;
    <set>QMainWindow::AllowTabbedDocks</set>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QLabel" name="PswdRmdWin_Text_log">
+   <widget class="QLabel" name="LogWin_Text_log">
     <property name="geometry">
      <rect>
-      <x>212</x>
+      <x>60</x>
       <y>25</y>
       <width>175</width>
       <height>25</height>
      </rect>
     </property>
     <property name="text">
-     <string>Podaj adres e-mail</string>
+     <string>E-mail:</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QPushButton" name="PswdRmdWin_Button_pswdrmd">
+   <widget class="QPushButton" name="LogWin_Button_log">
     <property name="geometry">
      <rect>
-      <x>212</x>
-      <y>290</y>
+      <x>60</x>
+      <y>200</y>
       <width>175</width>
       <height>25</height>
      </rect>
     </property>
     <property name="text">
-     <string>przypomnij hasło</string>
+     <string>zmień</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="PswdRmdWin_Button_log">
+   <widget class="QLabel" name="LogWin_Text_pswd">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>365</y>
-      <width>100</width>
-      <height>15</height>
+      <x>60</x>
+      <y>75</y>
+      <width>175</width>
+      <height>25</height>
      </rect>
     </property>
     <property name="text">
-     <string>zaloguj</string>
+     <string>Hasło:</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
-   <widget class="QPushButton" name="PswdRmdWin_Button_reg">
+   <widget class="QLineEdit" name="LogWin_Edit_log">
     <property name="geometry">
      <rect>
-      <x>120</x>
-      <y>365</y>
-      <width>100</width>
-      <height>15</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>utwórz konto</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="PswdRmdWin_Edit_log">
-    <property name="geometry">
-     <rect>
-      <x>187</x>
+      <x>35</x>
       <y>50</y>
       <width>225</width>
       <height>25</height>
      </rect>
     </property>
+    <property name="inputMask">
+     <string/>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
     <property name="maxLength">
-     <number>320</number>
+     <number>32767</number>
     </property>
     <property name="placeholderText">
      <string>e-mail</string>
     </property>
    </widget>
-   <widget class="QLabel" name="PswdRmdWin_Text_redallert">
+   <widget class="QLineEdit" name="LogWin_Edit_pswd">
     <property name="geometry">
      <rect>
-      <x>187</x>
+      <x>35</x>
       <y>100</y>
+      <width>225</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="inputMask">
+     <string/>
+    </property>
+    <property name="maxLength">
+     <number>32767</number>
+    </property>
+    <property name="placeholderText">
+     <string>hasło</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="LogWin_Text_redallert">
+    <property name="geometry">
+     <rect>
+      <x>35</x>
+      <y>138</y>
       <width>230</width>
       <height>50</height>
      </rect>
@@ -169,6 +201,9 @@ font-size: 16px;
     </property>
     <property name="alignment">
      <set>Qt::AlignHCenter|Qt::AlignTop</set>
+    </property>
+    <property name="wordWrap">
+     <bool>true</bool>
     </property>
    </widget>
   </widget>
