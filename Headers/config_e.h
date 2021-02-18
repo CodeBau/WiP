@@ -1,5 +1,4 @@
-#ifndef CONFIG_E_H
-#define CONFIG_E_H
+#pragma once
 /*
 #include <vector>
 #include <QString>
@@ -10,4 +9,3 @@ QChar random_QChar ();
 int random_int (int min, int max);
 std::vector<QString> log_data_from_config();
 */
-#endif // CONFIG_H
