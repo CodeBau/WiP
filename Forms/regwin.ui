@@ -90,6 +90,7 @@ font-size: 16px;
    <set>QMainWindow::AllowTabbedDocks</set>
   </property>
   <widget class="QWidget" name="centralwidget">
+  
    <widget class="QLabel" name="RegWin_Text_log">
     <property name="geometry">
      <rect>
@@ -244,6 +245,8 @@ font-size: 16px;
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
+   
+   
   </widget>
  </widget>
  <resources/>

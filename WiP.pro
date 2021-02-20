@@ -22,7 +22,8 @@ SOURCES += \
     Source/main.cpp \
     Source/mainwin.cpp \
     Source/pswdrmdwin.cpp \
-    Source/regwin.cpp
+    Source/regwin.cpp \
+    Source/startwin.cpp
 
 HEADERS += \
     Headers/accont_data_change.h \
@@ -39,6 +40,7 @@ HEADERS += \
     Headers/mainwin.h \
     Headers/pswdrmdwin.h \
     Headers/regwin.h \
+    Headers/startwin.h \
     Headers/window_init.h
 
 FORMS += \
@@ -47,6 +49,7 @@ FORMS += \
     Forms/mainwin.ui \
     Forms/pswdrmdwin.ui \
     Forms/regwin.ui \
+    Forms/startwin.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
